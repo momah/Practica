@@ -1,4 +1,4 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
 public class TOPTWEvaluator {
     public static final double NO_EVALUATED = -1.0;

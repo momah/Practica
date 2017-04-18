@@ -1,4 +1,4 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
 public class TOPTWRoute {
     int predecessor;

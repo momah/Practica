@@ -1,4 +1,4 @@
-package Exposito.src.exposito.utilities;
+package exposito.src.exposito.utilities;
 
 import java.util.BitSet;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ public class PowerSet<E> implements Iterator<Set<E>>, Iterable<Set<E>> {
         this.bset = new BitSet(this.arr.length + 1);
     }
 
-    public boolean hasNext() {
+    public @Override boolean hasNext() {
         return !this.bset.get(this.arr.length);
     }
 

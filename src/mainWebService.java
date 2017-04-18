@@ -11,14 +11,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import ExpositoTOP.src.top.TOPTW;
-import ExpositoTOP.src.top.TOPTWGRASP;
-import ExpositoTOP.src.top.TOPTWReader;
-import ExpositoTOP.src.top.TOPTWSolution;
+import expositotop.src.top.TOPTW;
+import expositotop.src.top.TOPTWGRASP;
+import expositotop.src.top.TOPTWReader;
+import expositotop.src.top.TOPTWSolution;
 
 
 
@@ -40,9 +39,7 @@ public class mainWebService {
              TOPTWGRASP grasp = new TOPTWGRASP(solution);
 
              System.out.println(" --> Instance: "+instances[0]);
-             grasp.GRASP(5, 3);
-             //grasp.GRASP(10000, 5);
-             //grasp.GRASP(10000, 7);
+             grasp.grasp(5, 3);
              System.out.println("");
              System.out.println(grasp.getBest_solution().getSolutionJSON().toString());
              String result = grasp.getBest_solution().getSolutionJSON().toString();
@@ -56,7 +53,7 @@ public class mainWebService {
 	@Produces("application/json")
 	public Response getRoutesfromInput(@Context ServletContext context, @PathParam("j") JSONObject j)
 	{
-		 //you can specify in your method argument
+
 		JSONObject json = j;
 		String realPath = context.getRealPath("/");
 		System.out.println(realPath);
@@ -71,9 +68,7 @@ public class mainWebService {
              TOPTWGRASP grasp = new TOPTWGRASP(solution);
 
              System.out.println(" --> Instance: "+instances[0]);
-             grasp.GRASP(5, 3);
-             //grasp.GRASP(10000, 5);
-             //grasp.GRASP(10000, 7);
+             grasp.grasp(5, 3);
              System.out.println("");
              System.out.println(grasp.getBest_solution().getSolutionJSON().toString());
              String result = grasp.getBest_solution().getSolutionJSON().toString();

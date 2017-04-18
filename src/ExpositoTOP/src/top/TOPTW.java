@@ -1,6 +1,6 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
-import Exposito.src.exposito.utilities.ExpositoUtilities;
+import exposito.src.exposito.utilities.ExpositoUtilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -109,14 +109,22 @@ public class TOPTW {
     }
 
     public double getDistance(int i, int j) {
-        if(this.isDepot(i)) { i=0; }
-        if(this.isDepot(j)) { j=0; }
+        if(this.isDepot(i)) {
+        	i=0;
+        }
+        if(this.isDepot(j)) {
+        	j=0;
+        }
         return this.distanceMatrix[i][j];
     }
 
     public double getTime(int i, int j) {
-        if(this.isDepot(i)) { i=0; }
-        if(this.isDepot(j)) { j=0; }
+        if(this.isDepot(i)) {
+        	i=0;
+        }
+        if(this.isDepot(j)) {
+        	j=0;
+        }
         return this.distanceMatrix[i][j];
     }
 
@@ -129,7 +137,9 @@ public class TOPTW {
     }
 
     public double getX(int index) {
-        if(this.isDepot(index)) { index=0; }
+        if(this.isDepot(index)) {
+        	index=0;
+        }
         return this.x[index];
     }
 
@@ -138,7 +148,9 @@ public class TOPTW {
     }
 
     public double getY(int index) {
-        if(this.isDepot(index)) { index=0; }
+        if(this.isDepot(index)) {
+        	index=0;
+        }
         return this.y[index];
     }
 
@@ -147,7 +159,9 @@ public class TOPTW {
     }
 
     public double getScore(int index) {
-        if(this.isDepot(index)) { index=0; }
+        if(this.isDepot(index)) {
+        	index=0;
+        }
         return this.score[index];
     }
 
@@ -160,7 +174,9 @@ public class TOPTW {
     }
 
     public double getReadyTime(int index) {
-        if(this.isDepot(index)) { index=0; }
+        if(this.isDepot(index)) {
+        	index=0;
+        }
         return this.readyTime[index];
     }
 
@@ -169,7 +185,9 @@ public class TOPTW {
     }
 
     public double getDueTime(int index) {
-        if(this.isDepot(index)) { index=0; }
+        if(this.isDepot(index)) {
+        	index=0;
+        }
         return this.dueTime[index];
     }
 
@@ -178,7 +196,9 @@ public class TOPTW {
     }
 
     public double getServiceTime(int index) {
-        if(this.isDepot(index)) { index=0; }
+        if(this.isDepot(index)) {
+        	index=0;
+        }
         return this.serviceTime[index];
     }
 
@@ -201,13 +221,13 @@ public class TOPTW {
         for (int i = 0; i < this.nodes; i++) {
             strings = new String[strings.length];
             int index = 0;
-            strings[index++] = "" + i;
-            strings[index++] = "" + this.x[i];
-            strings[index++] = "" + this.y[i];
-            strings[index++] = "" + this.score[i];
-            strings[index++] = "" + this.readyTime[i];
-            strings[index++] = "" + this.dueTime[i];
-            strings[index++] = "" + this.serviceTime[i];
+            strings[index++] = " " + i;
+            strings[index++] = " " + this.x[i];
+            strings[index++] = " " + this.y[i];
+            strings[index++] = " " + this.score[i];
+            strings[index++] = " " + this.readyTime[i];
+            strings[index++] = " " + this.dueTime[i];
+            strings[index++] = " " + this.serviceTime[i];
             text += ExpositoUtilities.getFormat(strings, width);
             text += "\n";
         }

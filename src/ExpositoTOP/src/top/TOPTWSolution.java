@@ -1,6 +1,6 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
-import Exposito.src.exposito.utilities.ExpositoUtilities;
+import exposito.src.exposito.utilities.ExpositoUtilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +56,7 @@ public class TOPTWSolution {
         return false;
     }
 
-    public boolean equals(TOPTWSolution otherSolution) {
+    public boolean eqls(TOPTWSolution otherSolution) {
         for (int i = 0; i < this.predecessors.length; i++) {
             if (this.predecessors[i] != otherSolution.predecessors[i]) {
                 return false;
@@ -158,37 +158,43 @@ public class TOPTWSolution {
             double costTimeRoute = 0.0, fitnessScoreRoute = 0.0;
             pre = depot;
             int index = 0;
-            strings[index++] = "" + pre;
-            strings[index++] = "" + this.getProblem().getX(pre);
-            strings[index++] = "" + this.getProblem().getY(pre);
-            strings[index++] = "" + this.getProblem().getReadyTime(pre);
-            strings[index++] = "" + this.getProblem().getDueTime(pre);
-            strings[index++] = "" + 0;
-            strings[index++] = "" + 0;
-            strings[index++] = "" + this.getProblem().getServiceTime(pre);
+            strings[index++] = " " + pre;
+            strings[index++] = " " + this.getProblem().getX(pre);
+            strings[index++] = " " + this.getProblem().getY(pre);
+            strings[index++] = " " + this.getProblem().getReadyTime(pre);
+            strings[index++] = " " + this.getProblem().getDueTime(pre);
+            strings[index++] = " " + 0;
+            strings[index++] = " " + 0;
+            strings[index++] = " " + this.getProblem().getServiceTime(pre);
             text += ExpositoUtilities.getFormat(strings, width);
             text += "\n";
             do {                // recorremos la ruta
                 index = 0;
                 suc = this.getSuccessor(pre);
                 textSolution += pre+" - ";
-                strings[index++] = "" + suc;
-                strings[index++] = "" + this.getProblem().getX(suc);
-                strings[index++] = "" + this.getProblem().getY(suc);
-                strings[index++] = "" + this.getProblem().getReadyTime(suc);
-                strings[index++] = "" + this.getProblem().getDueTime(suc);
+                strings[index++] = " " + suc;
+                strings[index++] = " " + this.getProblem().getX(suc);
+                strings[index++] = " " + this.getProblem().getY(suc);
+                strings[index++] = " " + this.getProblem().getReadyTime(suc);
+                strings[index++] = " " + this.getProblem().getDueTime(suc);
                 costTimeRoute += this.getDistance(pre, suc);
+                validSolution = false;
+                if((costTimeRoute < (this.getProblem().getDueTime(suc))) && (costTimeRoute < this.getProblem().getReadyTime(suc))){
+
+                    costTimeRoute = this.getProblem().getReadyTime(suc);
+                }
                 if(costTimeRoute < (this.getProblem().getDueTime(suc))) {
-                    if(costTimeRoute < this.getProblem().getReadyTime(suc)) {
-                        costTimeRoute = this.getProblem().getReadyTime(suc);
-                    }
-                    strings[index++] = "" + costTimeRoute;
+                    strings[index++] = " " + costTimeRoute;
                     costTimeRoute +=  this.getProblem().getServiceTime(suc);
-                    strings[index++] = "" + costTimeRoute;
-                    strings[index++] = "" + this.getProblem().getServiceTime(pre);
-                    if(costTimeRoute > this.getProblem().getMaxTimePerRoute()) { validSolution = false; }
+                    strings[index++] = " " + costTimeRoute;
+                    strings[index++] = " " + this.getProblem().getServiceTime(pre);
                     fitnessScoreRoute += this.problem.getScore(suc);
-                } else { validSolution = false; }
+                }
+                
+                if((costTimeRoute < (this.getProblem().getDueTime(suc))) && (costTimeRoute > this.getProblem().getMaxTimePerRoute())) { 
+                  validSolution = false; 
+                }
+  
                 pre = suc;
                 text += ExpositoUtilities.getFormat(strings, width);
                 text += "\n";
@@ -208,7 +214,6 @@ public class TOPTWSolution {
     	object.put("max time per route", this.problem.getMaxTimePerRoute());
     	object.put("max number of routes", this.problem.getMaxRoutes());
     	JSONObject routes = new JSONObject();
-    	boolean validSolution = true;
     	for (int i = 0; i<this.getCreatedRoutes(); i++)
     	{
     		ArrayList<JSONObject> nodelist = new ArrayList<JSONObject>();
@@ -216,56 +221,55 @@ public class TOPTWSolution {
     		String[] strings = new String[]{"CUST NO.", "X COORD.", "Y. COORD.", "READY TIME", "DUE DATE", "ARRIVE TIME", " LEAVE TIME", "SERVICE TIME"};
     		int depot = this.getIndexRoute(i);
             int pre=-1, suc=-1;
-            double costTimeRoute = 0.0, fitnessScoreRoute = 0.0;
+            double costTimeRoute = 0.0;
             pre = depot;
     		int index = 0;
-    		strings[index++] = "" + pre;
+    		strings[index++] = " " + pre;
     		node.put("cust no.", strings[0]);
-            strings[index++] = "" + this.getProblem().getX(pre);
+            strings[index++] = " " + this.getProblem().getX(pre);
             node.put("x coord.", strings[1]);
-            strings[index++] = "" + this.getProblem().getY(pre);
+            strings[index++] = " " + this.getProblem().getY(pre);
             node.put("y coord.", strings[2]);
-            strings[index++] = "" + this.getProblem().getReadyTime(pre);
+            strings[index++] = " " + this.getProblem().getReadyTime(pre);
             node.put("ready time", strings[3]);
-            strings[index++] = "" + this.getProblem().getDueTime(pre);
+            strings[index++] = " " + this.getProblem().getDueTime(pre);
             node.put("due date", strings[4]);
-            strings[index++] = "" + 0;
+            strings[index++] = " " + 0;
             node.put("arrive time", strings[5]);
-            strings[index++] = "" + 0;
+            strings[index++] = " " + 0;
             node.put("leave time", strings[6]);
-            strings[index++] = "" + this.getProblem().getServiceTime(pre);
+            strings[index++] = " " + this.getProblem().getServiceTime(pre);
             node.put("service time", strings[7]);
             nodelist.add(node);
             do {                // recorremos la ruta
             	JSONObject nodek = new JSONObject();
             	index = 0;
                 suc = this.getSuccessor(pre);
-                strings[index++] = "" + suc;
+                strings[index++] = " " + suc;
                 nodek.put("cust no.", strings[0]);
-                strings[index++] = "" + this.getProblem().getX(suc);
+                strings[index++] = " " + this.getProblem().getX(suc);
                 nodek.put("x coord.", strings[1]);
-                strings[index++] = "" + this.getProblem().getY(suc);
+                strings[index++] = " " + this.getProblem().getY(suc);
                 nodek.put("y coord.", strings[2]);
-                strings[index++] = "" + this.getProblem().getReadyTime(suc);
+                strings[index++] = " " + this.getProblem().getReadyTime(suc);
                 nodek.put("ready time", strings[3]);
-                strings[index++] = "" + this.getProblem().getDueTime(suc);
+                strings[index++] = " " + this.getProblem().getDueTime(suc);
                 nodek.put("due date", strings[4]);
                 costTimeRoute += this.getDistance(pre, suc);
                 if(costTimeRoute < (this.getProblem().getDueTime(suc))) {
                     if(costTimeRoute < this.getProblem().getReadyTime(suc)) {
                         costTimeRoute = this.getProblem().getReadyTime(suc);
                     }
-                    strings[index++] = "" + costTimeRoute;
+                    strings[index++] = " " + costTimeRoute;
                     nodek.put("arrive time", strings[5]);
                     costTimeRoute +=  this.getProblem().getServiceTime(suc);
-                    strings[index++] = "" + costTimeRoute;
+                    strings[index++] = " " + costTimeRoute;
                     nodek.put("leave time", strings[6]);
-                    strings[index++] = "" + this.getProblem().getServiceTime(pre);
+                    strings[index++] = " " + this.getProblem().getServiceTime(pre);
                     nodek.put("service time", strings[7]);
                     nodelist.add(nodek);
-                    if(costTimeRoute > this.getProblem().getMaxTimePerRoute()) { validSolution = false; }
-                    fitnessScoreRoute += this.problem.getScore(suc);
-                } else { validSolution = false; }
+                    if(costTimeRoute > this.getProblem().getMaxTimePerRoute()) { }
+                } else { }
                 pre = suc;
             } while(suc != depot);
             JSONObject[] nodes = new JSONObject[nodelist.size()];

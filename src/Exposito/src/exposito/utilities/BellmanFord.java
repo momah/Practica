@@ -1,4 +1,4 @@
-package Exposito.src.exposito.utilities;
+package exposito.src.exposito.utilities;
 
 import java.util.ArrayList;
 

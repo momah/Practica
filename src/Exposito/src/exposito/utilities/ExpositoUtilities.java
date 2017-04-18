@@ -1,4 +1,4 @@
-package Exposito.src.exposito.utilities;
+package exposito.src.exposito.utilities;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,20 +20,11 @@ public class ExpositoUtilities {
     public static final int ALIGNMENT_LEFT = 1;
     public static final int ALIGNMENT_RIGHT = 2;
 
-    private static int getFirstAppearance(int[] vector, int element) {
-        for (int i = 0; i < vector.length; i++) {
-            if (vector[i] == element) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public static void printFile(String file) {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(file));
-            String line = "";
+            String line = " ";
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
@@ -48,22 +39,20 @@ public class ExpositoUtilities {
         }
     }
 
-    public static String simplifyString(String string) {
-        string = string.replaceAll("\t", " ");
+    public static String simplifyString(String strng) {
+        strng = strng.replaceAll("\t", " ");
         for (int i = 0; i < 50; i++) {
-            string = string.replaceAll("  ", " ");
+            strng = strng.replaceAll("  ", " ");
         }
-        string = string.trim();
-        return string;
+        strng = strng.trim();
+        return strng;
     }
 
     public static double[][] multiplyMatrices(double a[][], double b[][]) {
         if (a.length == 0) {
             return new double[0][0];
         }
-        if (a[0].length != b.length) {
-            return null;
-        }
+
         int n = a[0].length;
         int m = a.length;
         int p = b[0].length;
@@ -83,14 +72,14 @@ public class ExpositoUtilities {
         writer.write(text);
         writer.flush();
         writer.close();
+        
     }
 
     public static String getFormat(String string) {
-        if (!ExpositoUtilities.isInteger(string)) {
-            if (ExpositoUtilities.isDouble(string)) {
+        if ( (!ExpositoUtilities.isInteger(string)) && (ExpositoUtilities.isDouble(string)) ) {
                 double value = Double.parseDouble(string);
                 string = ExpositoUtilities.getFormat(value);
-            }
+
         }
         return string;
     }
@@ -120,7 +109,7 @@ public class ExpositoUtilities {
     }
 
     public static String getFormat(String string, int width, int alignment) {
-        String format = "";
+        String format = " ";
         if (alignment == ExpositoUtilities.ALIGNMENT_LEFT) {
             format = "%-" + width + "s";
         } else {
@@ -133,7 +122,7 @@ public class ExpositoUtilities {
     }
 
     public static String getFormat(ArrayList<String> strings, int width) {
-        String format = "";
+        String format = " ";
         for (int i = 0; i < strings.size(); i++) {
             format += "%" + (i + 1) + "$" + width + "s";
         }
@@ -145,7 +134,7 @@ public class ExpositoUtilities {
     }
 
     public static String getFormat(ArrayList<Integer> strings) {
-        String format = "";
+        String format = " ";
         for (int i = 0; i < strings.size(); i++) {
             format += "%" + (i + 1) + "$" + DEFAULT_COLUMN_WIDTH + "s";
         }
@@ -165,7 +154,7 @@ public class ExpositoUtilities {
     }
 
         public static String getFormat(String[][] matrixStrings, int width) {
-        String result = "";
+        String result = " ";
         for (int i = 0; i < matrixStrings.length; i++) {
             String[] strings = matrixStrings[i];
             int[] alignment = new int[strings.length];
@@ -195,7 +184,7 @@ public class ExpositoUtilities {
     }
 
     public static String getFormat(String[] strings, int[] width, int[] alignment) {
-        String format = "";
+        String format = " ";
         for (int i = 0; i < strings.length; i++) {
             if (alignment[i] == ExpositoUtilities.ALIGNMENT_LEFT) {
                 format += "%" + (i + 1) + "$-" + width[i] + "s";

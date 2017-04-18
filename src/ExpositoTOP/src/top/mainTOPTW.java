@@ -1,4 +1,4 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
 public class mainTOPTW {
 
@@ -28,9 +28,7 @@ public class mainTOPTW {
             TOPTWGRASP grasp = new TOPTWGRASP(solution);
 
             System.out.println(" --> Instance: "+instances[i]);
-            grasp.GRASP(5, 3);
-            //grasp.GRASP(10000, 5);
-            //grasp.GRASP(10000, 7);
+            grasp.grasp(5, 3);
             System.out.println("");
             System.out.println(grasp.getBest_solution().getSolutionJSON().toString());
         }

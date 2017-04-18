@@ -1,4 +1,4 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,43 +6,21 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class TOPTWGRASP {
- public static double NO_EVALUATED = -1.0;
-
+ public static final double NOEVALUATED = -1.0;
     private TOPTWSolution solution;
-    private TOPTWSolution best_solution;
+    private TOPTWSolution bestSolution;
     private int solutionTime;
 
     public TOPTWGRASP(TOPTWSolution sol){
         this.solution = sol;
-        this.best_solution = null;
+        this.bestSolution = null;
         this.solutionTime = 0;
     }
 
-    /*procedure GRASP(Max Iterations,Seed)
-        1 Read Input();
-        2 for k = 1, . . . , Max Iterations do
-            3 Solution â†� Greedy Randomized Construction(Seed);
-            4 Solution â†� Local Search(Solution);
-            5 Update Solution(Solution,Best Solution);
-        6 end;
-        7 return Best Solution;
-    end GRASP*/
 
-    /*procedure Greedy Randomized Construction(Seed)
-        Solution â†� âˆ…;
-        Evaluate the incremental costs of the candidate elements;
-        while Solution is not a complete solution do
-            Build the restricted candidate list (RCL);
-            Select an element s from the RCL at random;
-            Solution â†� Solution âˆª {s};
-            Reevaluate the incremental costs;
-        end;
-        return Solution;
-    end Greedy Randomized Construction.*/
-
-    public void GRASP(int maxIterations, int maxSizeRCL) {
+    public void grasp(int maxIterations, int maxSizeRCL) {
         double averageFitness = 0.0;
-        double bestSolution = 0.0;
+        double bestSol = 0.0;
         for(int i = 0; i < maxIterations; i++) {
 
             this.computeGreedySolution(maxSizeRCL);
@@ -50,14 +28,13 @@ public class TOPTWGRASP {
             // IMPRIMIR SOLUCION
             double fitness = this.solution.evaluateFitness();
             System.out.println(this.solution.getInfoSolution());
-            //System.out.println("Press Any Key To Continue...");
-            //new java.util.Scanner(System.in).nextLine();
+
             averageFitness += fitness;
-            if(bestSolution < fitness) {
-                bestSolution = fitness;
-                this.best_solution=this.solution;
+            if(bestSol < fitness) {
+                bestSol = fitness;
+                this.bestSolution=this.solution;
             }
-            //double fitness = this.solution.printSolution();
+
 
             /******
             *
@@ -67,7 +44,7 @@ public class TOPTWGRASP {
         }
         averageFitness = averageFitness/maxIterations;
         System.out.println(" --> MEDIA: "+averageFitness);
-        System.out.println(" --> MEJOR SOLUCION: "+bestSolution);
+        System.out.println(" --> MEJOR SOLUCION: "+bestSol);
     }
 
     public int aleatorySelectionRCL(int maxTRCL) {
@@ -85,7 +62,7 @@ public class TOPTWGRASP {
             membershipFunction[j] = 1 - ((rcl.get(j)[4])/maxSc);
         }
         double minMemFunc = Double.MAX_VALUE;
-        int posSelected = -1;
+        int posSelected = 0;
         for(int i = 0; i < rcl.size(); i++) {
             if(minMemFunc > membershipFunction[i]) {
                 minMemFunc = membershipFunction[i];
@@ -107,7 +84,7 @@ public class TOPTWGRASP {
                 rclPos.add(j);
             }
         }
-        int posSelected = -1;
+        int posSelected = 0;
         if(rclAlphaCut.size() > 0) {
             posSelected = rclPos.get(aleatorySelectionRCL(rclAlphaCut.size()));
         } else {
@@ -151,7 +128,7 @@ public class TOPTWGRASP {
                 for(int j=0; j < maxTRCL; j++) { rcl.add(candidates.get(j)); }
 
                 //SelecciÃ³n aleatoria o fuzzy de candidato de la lista restringida
-                int posSelected = -1;
+                int posSelected = 0;
                 int selection = 3;
                 double alpha = 0.8;
                 switch (selection) {
@@ -176,7 +153,6 @@ public class TOPTWGRASP {
 
             } else { // No hay candidatos a insertar en la soluciÃ³n, crear otra ruta
                 if(this.solution.getCreatedRoutes() < this.solution.getProblem().getVehicles()) {
-                    int newDepot = this.solution.addRoute();
                     ArrayList<Double> initNew = new ArrayList<Double>();
                     for(int z = 0; z < this.solution.getProblem().getPOIs()+this.solution.getProblem().getVehicles(); z++) {initNew.add(0.0);}
                     departureTimesPerClient.add(initNew);
@@ -189,7 +165,7 @@ public class TOPTWGRASP {
             candidates.clear();
             candidates = this.comprehensiveEvaluation(customers, departureTimesPerClient);
             Collections.sort(candidates, new Comparator<double[]>() {
-                public int compare(double[] a, double[] b) {
+                public @Override int compare(double[] a, double[] b) {
                     return Double.compare(a[a.length-2], b[b.length-2]);
                 }
             });
@@ -207,7 +183,7 @@ public class TOPTWGRASP {
         // ActualizaciÃ³n de las estructuras de datos y conteo a partir de la posiciÃ³n a insertar
         double costInsertionPre = departureTimes.get((int)candidateSelected[1]).get((int)candidateSelected[2]);
         ArrayList<Double> route = departureTimes.get((int)candidateSelected[1]);
-        int pre=(int)candidateSelected[2], suc=-1;
+        int pre=(int)candidateSelected[2], suc=0;
         int depot = this.solution.getIndexRoute((int)candidateSelected[1]);
         do {
             suc = this.solution.getSuccessor(pre);
@@ -231,7 +207,7 @@ public class TOPTWGRASP {
     public ArrayList< double[] > comprehensiveEvaluation(ArrayList<Integer> customers, ArrayList< ArrayList< Double > > departureTimes) {
         ArrayList< double[] > candidatesList = new ArrayList< double[] >();
         double[] infoCandidate = new double[5];
-        boolean validFinalInsertion = true;
+        boolean validFinalInsertion;
         infoCandidate[0] = -1;
         infoCandidate[1] = -1;
         infoCandidate[2] = -1;
@@ -242,7 +218,7 @@ public class TOPTWGRASP {
             for(int k = 0; k < this.solution.getCreatedRoutes(); k++) { // rutas creadas
                 validFinalInsertion = true;
                 int depot = this.solution.getIndexRoute(k);
-                int pre=-1, suc=-1;
+                int pre=0, suc=0;
                 double costInsertion = 0;
                 pre = depot;
                 int candidate = customers.get(c);
@@ -297,7 +273,7 @@ public class TOPTWGRASP {
             } //rutas creadas
 
             // almacenamos en la lista de candidatos la mejor posiciÃ³n de inserciÃ³n para el cliente
-            if(infoCandidate[0]!=-1 && infoCandidate[1]!=-1 && infoCandidate[2]!=-1 && infoCandidate[3] != Double.MAX_VALUE && infoCandidate[4]!=-1) {
+            if(infoCandidate[0]!=0 && infoCandidate[1]!=0 && infoCandidate[2]!=0 && infoCandidate[3] != Double.MAX_VALUE && infoCandidate[4]!=0) {
                 double[] infoCandidate2 = new double[5];
                 infoCandidate2[0] = infoCandidate[0];  infoCandidate2[1] = infoCandidate[1];
                 infoCandidate2[2] = infoCandidate[2];  infoCandidate2[3] = infoCandidate[3];
@@ -342,14 +318,14 @@ public class TOPTWGRASP {
 	 * @return the best_solution
 	 */
 	public TOPTWSolution getBest_solution() {
-		return best_solution;
+		return bestSolution;
 	}
 
 	/**
 	 * @param best_solution the best_solution to set
 	 */
 	public void setBest_solution(TOPTWSolution best_solution) {
-		this.best_solution = best_solution;
+		this.bestSolution = best_solution;
 	}
 
 

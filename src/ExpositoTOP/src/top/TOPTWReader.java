@@ -1,6 +1,6 @@
-package ExpositoTOP.src.top;
+package expositotop.src.top;
 
-import Exposito.src.exposito.utilities.ExpositoUtilities;
+import exposito.src.exposito.utilities.ExpositoUtilities;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,7 +8,11 @@ import java.io.IOException;
 
 public class TOPTWReader {
 
-    public static TOPTW readProblem(String filePath) {
+    public TOPTWReader() {
+		super();
+	}
+
+	public static TOPTW readProblem(String filePath) {
         TOPTW problem = null;
         BufferedReader reader = null;
         try {
@@ -41,7 +45,6 @@ public class TOPTWReader {
             problem.calculateDistanceMatrix();
         } catch (IOException e) {
             System.err.println(e);
-            System.exit(0);
         } finally {
             if (reader != null) {
                 try {

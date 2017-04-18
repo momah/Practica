@@ -1,4 +1,4 @@
-package ExpositoTOP.src.utils;
+package expositotop.src.utils;
 import java.util.Objects;
 
 public class Pair<F, S> {
